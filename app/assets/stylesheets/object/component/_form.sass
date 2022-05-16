@@ -1,0 +1,313 @@
+// ==============================================
+// 汎用フォーム
+// ==============================================
+
+%formStyle
+  display: inline-block
+  // padding: 5px
+  padding: .2rem .2rem .2rem 1rem
+  border: 1px solid #aab4b9
+  border-radius: 2px
+  appearance: none
+  height: 30px
+  &:focus
+    outline: none
+    border: solid 1px map-get($layoutColors, 'core')
+
+.c-form
+  // 項目
+  // ------------------------------------
+  &-label
+    margin: 5px 0
+    font-weight: bold
+  // 必須
+  &__required
+    border-radius: 2px
+    background-color: map-get($layoutColors, 'vivid')
+    color: map-get($fontColors, 'white')
+    font-size: map-get($fontSize, 'small')
+    line-height: 1.4rem
+    padding: 0 5px
+  // 入力推奨
+  &__recommend
+    border-radius: 2px
+    background-color: map-get($layoutColors, 'orange')
+    color: map-get($fontColors, 'white')
+    font-size: map-get($fontSize, 'small')
+    line-height: 1.4rem
+    padding: 0 5px
+  &-field
+    &[data-isvalid="false"]
+      background: #ffffde
+  &-error
+    margin: 5px 0
+    color: map-get($fontColors, 'red')
+    font-weight: bold
+    font-size: map-get($fontSize, 'small')
+  &-group
+    display: flex
+  &-line
+    display: flex
+    flex-direction: column
+  // テキスト・テキストエリア
+  // ------------------------------------
+  &-text
+    @extend %formStyle
+    width: 100%
+    &:disabled, &[disabled]
+      background-color: map-get($layoutColors, 'gray')
+    &:read-only
+      background-color: map-get($layoutColors, 'gray')
+    &::placeholder
+      color: map-get($fontColors, 'midBlack')
+  &-textarea
+    @extend %formStyle
+    width: 100%
+    vertical-align: bottom
+    height: 100%
+
+  &-toggle
+    user-select: none
+    font-size: map-get($fontSize, 'small')
+    input[type='checkbox']
+      display: none
+    & > input + span
+      min-width: 60px
+      height: 40px
+      background: map-get($layoutColors, 'gray')
+      position: relative
+      display: inline-block
+      border-radius: 46px
+      transition: ease all .2s
+      cursor: pointer
+      padding: 0 15px 0 40px
+      line-height: 38px
+      font-weight: bold
+      &:before
+        content: attr(data-off)''
+      &:after
+        content: ''
+        position: absolute
+        width: 30px
+        height: 30px
+        border-radius: 50%
+        left: 4px
+        top: 5px
+        z-index: 1
+        background: map-get($layoutColors, 'white')
+        box-shadow: 0 0 5px rgba(map-get($layoutColors, 'black'), 0.4)
+        transition: .2s
+    & > input:checked + span
+      background: #53BC9F
+      padding: 0 40px 0 15px
+      color: map-get($fontColors, 'white')
+      &:before
+        content: attr(data-on)''
+      &:after
+        left: calc(100% - 34px)
+    &:hover > input + span
+      opacity: .8
+
+  // チェックボックス
+  // ------------------------------------
+  &-checkboxLabel
+    cursor: pointer
+    &:hover
+      & > .c-form-checkboxIcon
+        border-color: map-get($layoutColors, 'core')
+        box-shadow: 0 0 0 1px map-get($layoutColors, 'vivid')
+  &-checkboxIcon
+    @extend %formStyle
+    position: relative
+    width: 30px
+    height: 30px
+    margin-right: 10px
+    vertical-align: middle
+    &:hover
+      border-color: map-get($layoutColors, 'core')
+      box-shadow: 0 0 0 1px map-get($layoutColors, 'vivid')
+    &::before
+      content: ''
+      position: absolute
+      left: 0
+      right: 0
+      top: 1px
+      display: block
+      width: 6px
+      height: 16px
+      margin: 0 auto
+      border-right: 4px solid map-get($layoutColors, 'white')
+      border-bottom: 4px solid map-get($layoutColors, 'white')
+      transform: rotate(45deg)
+  &-checkbox
+    opacity: 0
+    width: 1px
+    height: 1px
+    padding: 0
+    margin: 0
+    &:focus
+      & + .c-form-checkboxIcon
+        border-color: map-get($layoutColors, 'core')
+        box-shadow: 0 0 0 1px #04a9f4
+    &:hover
+      & + .c-form-checkboxIcon
+        border-color: map-get($layoutColors, 'core')
+        box-shadow: 0 0 0 1px #04a9f4
+        cursor: pointer
+    &:checked
+      & + .c-form-checkboxIcon
+        border-color: map-get($layoutColors, 'core')
+        background-color: map-get($layoutColors, 'core')
+    &:disabled
+      & + .c-form-checkboxIcon
+        border-color: map-get($layoutColors, 'gray')
+        background-color: map-get($layoutColors, 'gray')
+        cursor: default
+        box-shadow: none
+  // ラジオボタン
+  // ------------------------------------
+  &-radioLabel
+    cursor: pointer
+    &:hover
+      & > .c-form-radioIcon
+        border-width: 2px
+        border-color: map-get($layoutColors, 'core')
+  &-radioIcon
+    @extend %formStyle
+    width: 30px
+    height: 30px
+    border-radius: 50%
+    background-size: cover
+    position: relative
+    margin-right: 10px
+    vertical-align: middle
+    &:hover
+      border-width: 2px
+      border-color: map-get($layoutColors, 'core')
+  &-radio
+    display: none
+    width: 1px
+    height: 1px
+    padding: 0
+    margin: 0
+    &:focus
+      & + .c-form-radioIcon
+        border: 2px solid map-get($layoutColors, 'core')
+    &:hover
+      & + .c-form-radioIcon
+        border-width: 2px
+        border-color: map-get($layoutColors, 'core')
+        cursor: pointer
+    &:checked
+      & + .c-form-radioIcon
+        border-width: 2px
+        border-color: map-get($layoutColors, 'core')
+        background: map-get($layoutColors, 'white')
+        &:after
+          content: ''
+          display: block
+          position: absolute
+          left: 50%
+          top: 50%
+          width: 22px
+          height: 22px
+          margin-top: -11px
+          margin-left: -11px
+          border-radius: 50%
+          background: map-get($layoutColors, 'core')
+    &:disabled
+      & + .c-form-radioIcon
+        border-width: 2px
+        border-color: map-get($layoutColors, 'gray')
+        background: map-get($layoutColors, 'white')
+        cursor: default
+        &:after
+          content: ''
+          display: block
+          position: absolute
+          left: 50%
+          top: 50%
+          width: 22px
+          height: 22px
+          margin-top: -11px
+          margin-left: -11px
+          border-radius: 50%
+          background: map-get($layoutColors, 'gray')
+
+  // セレクトボックス
+  // ------------------------------------
+  &-selectWrap
+    position: relative
+    &:after
+      content: ''
+      width: 8px
+      height: 8px
+      display: inline-block
+      position: absolute
+      margin-top: -8px
+      top: 50%
+      right: 15px
+      border-right: 2px solid map-get($layoutColors, 'lightGray')
+      border-bottom: 2px solid map-get($layoutColors, 'lightGray')
+      transform: rotate(45deg)
+      pointer-events: none
+  &-select
+    @extend %formStyle
+    cursor: pointer
+    padding-right: 33px
+    background-color: map-get($layoutColors, 'white')
+    width: 100%
+    &::-ms-expand
+      display: none
+
+    &__work-show
+      @extend %formStyle
+      cursor: pointer
+      padding-right: 33px
+      background: none
+      background-color: map-get($layoutColors, 'white')
+      width: 140px
+      line-height: 2rem
+
+    &__bulk-jsx
+      @extend %formStyle
+      cursor: pointer
+      padding-right: 33px
+      background: none
+      background-color: map-get($layoutColors, 'white')
+      width: 825px
+      line-height: 2rem
+
+    &__expendable-index
+      @extend %formStyle
+      cursor: pointer
+      background: none
+      background-color: map-get($layoutColors, 'white')
+      line-height: 2rem
+      &:after
+        content: ''
+        display: block
+        position: absolute
+        top: 231px
+        left: 692px
+        width: 0
+        height: 0
+        padding: 0
+        border-left: 8px solid transparent
+        border-right: 8px solid transparent
+        border-top: 8px solid map-get($layoutColors, 'lightGray')
+        z-index: 1
+        //三角押せるようになるやつ
+        pointer-events: none
+
+  // 日付セレクトボックス
+  // ------------------------------------
+  &-dateselect
+    @extend %formStyle
+    cursor: pointer
+    padding-right: 33px
+    background: none
+    background-color: map-get($layoutColors, 'white')
+    line-height: 2rem
+    &::-ms-expand
+      display: none

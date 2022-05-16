@@ -1,0 +1,23 @@
+# SQLite version 3.x
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem 'sqlite3'
+#
+default: &default
+  google:
+    key: 846344407078-fut18i1sagoa8rgvp3uu68l75c3ftak6.apps.googleusercontent.com
+    secret: 7SsmFq4vdmfOdV3i6lCv7tqT
+    scope: 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
+
+development:
+  <<: *default
+
+staging:
+  <<: *default
+
+production:
+  google:
+    key: 69788129908-b08cvqhm0cq191592o7uj6h39mbcp3rh.apps.googleusercontent.com
+    secret: RDLCvH0Ep7QcPMaK7eMi6HDQ
+    scope: 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'

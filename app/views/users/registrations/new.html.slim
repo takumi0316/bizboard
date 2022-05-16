@@ -1,0 +1,27 @@
+.entries
+  section.p-sessions__inner
+    h1.p-sessions__title 新規登録
+
+    .u-my-30
+       = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+        .c-form-field
+          = f.label :name, 'ユーザー名', class: 'c-form-label'
+          = f.text_field :email, autofocus: true, autocomplete: "name", placeholder: 'bizboard', class: 'c-form-text'
+        .c-form-field.u-mt-10
+          = f.label :email, 'メールアドレス', class: 'c-form-label'
+          = f.text_field :email, placeholder: 'email@example.co.jp', class: 'c-form-text'
+        .c-form-field.u-mt-10
+          = f.label :password, 'パスワード', class: 'c-form-label u-ml-5'
+          = f.password_field :password, class: 'c-form-text'
+        .c-form-field.u-mt-10
+          = f.label :password_confirmation, 'パスワード(確認)', class: 'c-form-label u-ml-5'
+          = f.password_field :password_confirmation, class: 'c-form-text'
+        .u-ta-center.u-mt-20
+          = f.submit '登録する', class: 'c-btnMain c-btn-blue'
+
+
+  .p-sessions__sns
+    h2.p-sessions__snsTitle 持っているアカウントで登録
+
+  .u-mt-30.u-ta-right
+    = render "users/shared/links"

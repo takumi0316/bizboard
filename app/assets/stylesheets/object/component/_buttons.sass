@@ -1,0 +1,49 @@
+// ==============================================
+// 汎用ボタン
+// ==============================================
+
+%btn
+  border: 1px solid #d2d4d8
+  border-radius: 5px
+  text-decoration: none
+  text-align: center
+  cursor: pointer
+  padding: 6px 11px
+  min-height: 32px
+  font-weight: bold
+  font-size: 12px
+.c-btn
+  &Main
+    @extend %btn
+    background-image: linear-gradient(to bottom, #fff, #f3f0ea, #e6e2db)
+    color: #585757
+    &:hover
+    &:disabled, &[disabled]
+  &Google
+    @extend %btn
+    color: #ffffff
+
+  &-icon
+    &::after
+      content: ''
+      display: inline-block
+      width: 8px
+      height: 8px
+      border-right: 2px solid map-get($layoutColors, 'white')
+      border-top: 2px solid map-get($layoutColors, 'white')
+      transform: rotate(45deg)
+      margin-left: 5px
+  &-default
+    background-color: map-get(map-get($buttonColors, 'standard'), 'default')
+    &:hover
+      background-color: map-get(map-get($buttonColors, 'standard'), 'hover')
+  &-red
+    color: #cc0000
+  &-blue
+    color: #3b8dcd
+  &-google
+    color: #dd4b39
+  &-orange
+    background-color: #ff8c00
+    &:hover
+      background-color: #ffa333

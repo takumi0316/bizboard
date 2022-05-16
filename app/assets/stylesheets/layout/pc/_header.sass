@@ -1,0 +1,106 @@
+// ==============================================
+// HEADER (PC)
+// ==============================================
+  
+.l-header
+  position: fixed
+  background-color: map-get($layoutColors, 'lightGray')
+  border-bottom: 1px solid map-get($layoutColors, 'lightGray')
+  z-index: $layerLevel-overlay
+  &__inner
+    display: flex
+    justify-content: space-between
+    width: 100vw
+    height: 40px
+    margin: 0 auto
+    padding: 5px 10px
+  &__logo
+    &-vivid
+      fill: map-get($layoutColors, 'vivid')
+    &-logo
+      fill: map-get($fontColors, 'black')
+    &-beta
+      fill: map-get($layoutColors, 'thinBlack')
+  &__menu
+    margin-left: auto
+    display: flex
+    justify-content: center
+    align-items: center
+    margin-right: 15px
+  &__search
+    width: 300px
+    position: relative
+    &Text
+      display: inline-block
+      padding: 10px 40px 10px 20px
+      border: 1px solid map-get($layoutColors, 'base')
+      font-size: map-get($fontSize, 'base')
+      appearance: none
+      width: 100%
+      height: 40px
+      border-radius: 20px !important
+      background-color: map-get($layoutColors, 'base')
+      transition: all .3s ease
+      &::placeholder
+        color: map-get($fontColors, 'lightGray')
+      &:focus
+        outline: none
+        border: solid 1px map-get($layoutColors, 'core')
+        background-color: map-get($layoutColors, 'white')
+    &Button
+      background-color: rgba(0, 0, 0, 0)
+      position: absolute
+      right: 5px
+      top: 7px
+      outline: none
+      appearance: none
+      border: none
+      cursor: pointer
+  &__settings
+    position: relative
+  &__balloon
+    position: absolute
+    display: inline-block
+    margin: 1.5em 0
+    padding: 7px 10px
+    min-width: 120px
+    max-width: 100%
+    background-color: white
+    border-radius: 15px
+    border: 1px solid #808080
+    top: 20px
+    right: 0
+    box-shadow: 0 6px 12px rgba(0,0,0,0.175)
+    background-clip: padding-box
+    &:before
+      position: absolute
+      right: 25px
+      bottom: 100%
+      width: 0
+      height: 0
+      content: ''
+      border: 10px solid transparent
+      border-bottom: 10px solid #808080
+      z-index: 1
+    &:after
+      position: absolute
+      top: -20.5px
+      right: 23px
+      bottom: 100%
+      width: 0
+      height: 0
+      content: ''
+      border: 12px solid transparent
+      border-bottom: 12px solid white
+      z-index: 1
+    li
+      padding: 8px 12px
+      &:hover
+        background: rgba(#c0c0c0, 0.2)
+    &--hide
+      display: none
+      height: 0
+      opacity: 0
+      overflow-y: hidden
+      width: 90%
+      transition: height .3s ease-in-out, opacity .3s ease-in-out

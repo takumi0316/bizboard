@@ -65,6 +65,9 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  #本番環境準備時にURL記載すること
+  config.action_mailer.default_url_options = { host: 'www.test.com', port: 80 }
+
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
