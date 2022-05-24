@@ -1,10 +1,15 @@
 .l-dashboard__menu
 
   ul.l-dashboard__menuList.u-mt-50
-    li.l-dashboard__menuItem.u-mt-10
-      = link_to root_path do
-        = evil_icon 'ei-plus' 
-        span.u-ml-5.u-fs-base ワークスペース作成
+    li#test.l-dashboard__menuItem.u-mt-10.c-flex-alignItems__center
+      = evil_icon 'ei-plus' 
+      span.u-ml-5.u-fs-base ワークスペース作成
+      
+      #mask.hidden
+      #modal.hidden
+        p
+          モーダルウィンドウ
+  
     li.l-dashboard__menuItem.u-mt-10
       = link_to root_path do
         = evil_icon 'ei-bell' 
@@ -17,3 +22,27 @@
       = link_to root_path do
         = evil_icon 'ei-plus' 
         span.u-ml-5.u-fs-base ボード追加
+javascript:
+  // モーダルを取得
+  var modal = document.getElementById('modal');
+  // マスクを取得
+  var mask = document.getElementById('mask');
+  console.log(modal)
+  console.log(mask)
+
+
+  // モーダルの中身をshowビューに置き換えます。
+  // 部分テンプレートのパス、localsの値はアプリにより異なります。
+  //modal.innerHTML = '<%= escape_javascript(render partial: 'shared/photo_show', locals: { photo: @photo, comments: @comments, user: @user, comment: @comment }) %>';
+  
+  test.addEventListener('click', () => {
+    // hiddenクラスを消してモーダルとマスクを表示させます。
+    modal.classList.remove('hidden');
+    mask.classList.remove('hidden');
+  });
+
+  //モーダルの外側（マスク）をクリックするとhiddenクラスが書き込まれ、モーダルとマスクが再び非表示となります。
+  mask.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    mask.classList.add('hidden');
+  });
