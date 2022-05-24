@@ -1,46 +1,55 @@
-# This loads the application in the master process before forking
-# worker processes
-# Read more about it here:
-# http://unicorn.bogomips.org/Unicorn/Configurator.html
+# rootパスのディレクトリを指定
+root_path = File.expand_path('../../', __FILE__)
+
+# アプリケーションサーバの性能を決定する
+worker_processes 2
+
+# アプリケーションの設置されているディレクトリを指定
+working_directory root_path
+
+# プロセスIDの保存先を指定
+pid "#{root_path}/tmp/pids/unicorn.pid"
+
+# ポート番号を指定
+listen "#{root_path}/tmp/sockets/unicorn.sock"
+
+# エラーのログを記録するファイルを指定
+stderr_path "#{root_path}/log/unicorn.stderr.log"
+
+# 通常のログを記録するファイルを指定
+stdout_path "#{root_path}/log/unicorn.stdout.log"
+
+#応答時間を待つ上限時間を設定
+timeout 30
+
+# ダウンタイムなしでUnicornを再起動時する
 preload_app true
 
-timeout 3000
+GC.respond_to?(:copy_on_write_friendly=) && GC.copy_on_write_friendly = true
 
-@app_path = '/home/media/current'
+check_client_connection false
 
-worker_processes Integer(ENV["WEB_CONCURRENCY"] || 2)
-working_directory "#{@app_path}"
-pid "#{@app_path}/tmp/pids/unicorn.pid"
-
-# This is where we specify the socket.
-# We will point the upstream Nginx module to this socket later on
-listen "#{@app_path}/tmp/sockets/unicorn.sock", backlog: 64
-#listen "/tmp/unicorn.sock", :backlog => 64
-
-# use correct Gemfile on restarts
-before_exec do |server|
-  ENV['BUNDLE_GEMFILE'] = "#{@app_path}/Gemfile"
-end
+run_once = true
 
 before_fork do |server, worker|
-  Signal.trap 'TERM' do
-    puts 'Unicorn master intercepting TERM and sending myself QUIT instead'
-    Process.kill 'QUIT', Process.pid
-  end
-
-  defined?(ActiveRecord::Base) and
+  defined?(ActiveRecord::Base) &&
     ActiveRecord::Base.connection.disconnect!
-end
 
-after_fork do |server, worker|
-  Signal.trap 'TERM' do
-    puts 'Unicorn worker intercepting TERM and doing nothing. Wait for master to send QUIT'
+  if run_once
+    run_once = false # prevent from firing again
   end
 
-  defined?(ActiveRecord::Base) and
-    ActiveRecord::Base.establish_connection
+  old_pid = "#{server.config[:pid]}.oldbin"
+  if File.exist?(old_pid) && server.pid != old_pid
+    begin
+      sig = (worker.nr + 1) >= server.worker_processes ? :QUIT : :TTOU
+      Process.kill(sig, File.read(old_pid).to_i)
+    rescue Errno::ENOENT, Errno::ESRCH => e
+      logger.error e
+    end
+  end
 end
 
-# logging
-stderr_path "log/unicorn.stderr.log"
-stdout_path "log/unicorn.stdout.log"
+after_fork do |_server, _worker|
+  defined?(ActiveRecord::Base) && ActiveRecord::Base.establish_connection
+end
